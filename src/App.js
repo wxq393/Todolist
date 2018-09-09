@@ -4,26 +4,17 @@ import './reset.css'
 import './App.css';
 import TodoInput from './TodoInput'
 import TodoItem from './TodoItem'
-import * as localStore from './localStore'
-
-import AV from 'leancloud-storage'
-var APP_ID = 'Yt4sMYkDKDzaROfviWSFIjua-gzGzoHsz'
-var APP_KEY = 'PxpSXagGMyIkVvMUTFbXK602'
-AV.init({
-  appId: APP_ID,
-  appKey: APP_KEY
-})
 
 class App extends Component {
   constructor(props){
     super(props)
     this.state = {
       newTodo: '',
-      todoList: localStore.load('todoList') || []  
+      todoList: [] 
     }
   }
+render() {
 
-render() {   
     let todos = this.state.todoList
     .filter((item)=> !item.deleted)
     .map((item,index)=>{
@@ -35,7 +26,7 @@ render() {
       )
     })
     
-  return (
+return (
       <div className="App">
           <h1>我的待办</h1>
           <div className="inputWrapper">
@@ -49,8 +40,7 @@ render() {
       </div>
     )
   }
-  componentDidUpdate(){
-    localStore.save('todoList', this.state.todoList)
+componentDidUpdate(){
   }
   toggle(e, todo){
     todo.status = todo.status === 'completed' ? '' : 'completed'

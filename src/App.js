@@ -72,14 +72,20 @@ render() {
   componentDidUpdate(){
   }
   toggle(e, todo){
+    let oldStatus = todo.status
     todo.status = todo.status === 'completed' ? '' : 'completed'
-    this.setState(this.state)
+    TodoModel.update(todo, () => {
+        this.setState(this.state)
+      }, (error) => {
+        todo.status = oldStatus
+        this.setState(this.state)
+      })
   } 
   changeTitle(event){
-    this.setState({
-      newTodo: event.target.value,
-      todoList: this.state.todoList
-    })
+      this.setState({
+        newTodo: event.target.value,
+        todoList: this.state.todoList
+      })
   }
   addTodo(event){ 
     let newTodo = {

@@ -29,7 +29,15 @@ export default AV
             todo.set('title', title)
             todo.set('status', status)
             todo.set('deleted', deleted)
-            todo.save().then(function (response) {
+
+            // 根据文档 https://leancloud.cn/docs/acl-guide.html#单用户权限设置
+            // 这样做就可以让这个 Todo 只被当前用户看到
+            let acl = new AV.ACL()
+            acl.setPublicReadAccess(false) // 注意这里是 false
+            acl.setWriteAccess(AV.User.current(), true)
+            todo.setACL(acl);
+
+            todo.save().then(function (response) {  
             successFn.call(null, response.id)
             }, function (error) {
             errorFn && errorFn.call(null, error)

@@ -42,8 +42,11 @@ render() {
           <ol className="todoList">
              {todos}
          </ol>
-         {this.state.user.id ? null : <UserDialog onSignUp={this.onSignUp.bind(this)}/>}
-      
+         {this.state.user.id ? 
+         null : 
+         <UserDialog 
+            onSignUp={this.onSignUp.bind(this)} 
+            onSignIn={this.onSignIn.bind(this)}/>}
       </div>
     )
   }
@@ -53,7 +56,12 @@ render() {
     stateCopy.user = {} 
     this.setState(stateCopy)
   }
-componentDidUpdate(){
+  onSignIn(user){
+    let stateCopy = JSON.parse(JSON.stringify(this.state)) 
+    stateCopy.user = user
+    this.setState(stateCopy)
+  }
+  componentDidUpdate(){
   }
   toggle(e, todo){
     todo.status = todo.status === 'completed' ? '' : 'completed'

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './UserDialog.css'
+import {signUp} from './leanCloud'
 export default class UserDialog extends Component{
     constructor(props){
         super(props)
@@ -16,6 +17,17 @@ export default class UserDialog extends Component{
           selected: e.target.value
         })
       }
+    signUp(e){
+        e.preventDefault()
+    let {username, password} = this.state.formData
+    let success = (user)=>{
+      console.log(user)
+    }
+    let error = (error)=>{
+      console.log(error)
+    }
+    signUp(username, password, success, error)
+  }  
     signUp(e){}
     signIn(e){}
     changeFormData(key, e){

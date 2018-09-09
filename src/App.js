@@ -14,7 +14,8 @@ class App extends Component {
       todoList: localStore.load('todoList') || []  
     }
   }
-  render() {   
+
+render() {   
     let todos = this.state.todoList
     .filter((item)=> !item.deleted)
     .map((item,index)=>{
@@ -25,7 +26,7 @@ class App extends Component {
         </li>
       )
     })
-   
+    
   return (
       <div className="App">
           <h1>我的待办</h1>
@@ -40,36 +41,28 @@ class App extends Component {
       </div>
     )
   }
-  toggle(e, todo){
-    todo.status = todo.status === 'completed' ? '' : 
-    'completed'
-    this.setState(this.state)
+  componentDidUpdate(){
     localStore.save('todoList', this.state.todoList)
+  }
+  toggle(e, todo){
+    todo.status = todo.status === 'completed' ? '' : 'completed'
+    this.setState(this.state)
   } 
   changeTitle(event){
     this.setState({
       newTodo: event.target.value,
       todoList: this.state.todoList
     })
-    localStore.save('todoList', this.state.todoList)
   }
   addTodo(event){
     this.state.todoList.push({
-      id: idMaker(),
-      title: event.target.value,
-      status: null,
-      deleted: false
-    })
-    this.setState({
       newTodo: '',
       todoList: this.state.todoList
     })
-    localStore.save('todoList', this.state.todoList)
   }
   delete(event, todo){
     todo.deleted = true
     this.setState(this.state) 
-    localStore.save('todoList', this.state.todoList)
   }
 }
 
